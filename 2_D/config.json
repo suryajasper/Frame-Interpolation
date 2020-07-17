@@ -1,0 +1,92 @@
+{
+    "name": "cartoon-interpolation",
+    "n_gpu": 1,
+
+    "arch": {
+        "type": "DoubleStreamedCycleCCNN",
+        "args": {}
+    },
+    "pretrain_data_loader": {
+        "type": "PretrainDataLoader",
+        "args":{
+            "data_dir": "data/dataset-akira-v3/",
+            "dataset_csv": "train_dataset.csv",
+            "batch_size": 16,
+            "shuffle": true,
+            "validation_split": 0.25,
+            "num_workers": 4,
+            "min_zoom": 0.01,
+            "max_zoom": 0.05,
+            "min_crop_size": 0.7,
+            "max_crop_size": 0.9,
+            "min_translation": 0.03
+        }
+    },
+    "train_data_loader": {
+        "type": "DD40DataLoader",
+        "args":{
+            "data_dir": "data/dataset-simpsons-v1-1/",
+            "dataset_csv": "train_dataset.csv",
+            "batch_size": 4,
+            "shuffle": true,
+            "validation_split": 0.25,
+            "num_workers": 4
+        }
+    },
+    "test_data_loader": {
+        "type": "DD40DataLoader",
+        "args":{
+            "data_dir": "data/dataset-simpsons/",
+            "dataset_csv": "test_dataset.csv",
+            "batch_size": 32,
+            "shuffle": false,
+            "validation_split": 0.0,
+            "num_workers": 4,
+            "training": false,
+            "return_paths": true
+        }
+    },
+    "optimizer": {
+        "type": "Adam",
+        "args":{
+            "lr": 0.001,
+            "weight_decay": 0.0001,
+            "amsgrad": true
+        }
+    },
+    "pretrain_loss": {
+        "type": "l1_loss",
+        "args": {}
+    },
+    "loss": {
+        "type": "final_loss",
+        "args": {
+            "alphas": [1, 0.3, 1],
+            "beta": 1,
+            "gamma": 1,
+            "theta": 0.1
+        }
+    },
+    "metrics": [
+        "psnr"
+    ],
+    "lr_scheduler": {
+        "type": "StepLR",
+        "args": {
+            "step_size": 50,
+            "gamma": 0.1
+        }
+    },
+    "trainer": {
+        "epochs": 1000,
+
+        "save_dir": "saved/",
+        "save_period": 1,
+        "verbosity": 2,
+        "log_step": 10,
+        "monitor": "min val_loss",
+        "early_stop": 10,
+
+        "tensorboard": true
+    }
+}

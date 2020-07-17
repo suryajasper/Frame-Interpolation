@@ -1,0 +1,16 @@
+Augmentor
+cupy
+cvbase
+moviepy==1.0.0
+numpy
+opencv-python
+pandas
+Pillow
+scikit-image
+scipy==1.1.0
+setproctitle
+tensorboard>=1.14.0
+tensorboardx
+tqdm
+torch
+torchvision
