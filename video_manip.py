@@ -5,7 +5,7 @@ from os.path import isfile, join
 
 def getFrames(url):
 	frames = []
-	vidcap = cv2.VideoCapture('0.mp4')
+	vidcap = cv2.VideoCapture(url)
 	success,image = vidcap.read()
 	count = 0
 	while success:
@@ -36,10 +36,4 @@ def framesToVideo(frames, fps, pathOut):
 		# writing to a image array
 		out.write(frames[i])
 	out.release()
-
-files = {'jump': 48, 'run': 44, 'sit': 59, 'stairdown': 33, 'stairup': 36, 'stand': 58, 'turn': 60, 'walk': 56}
-
-for typeOfVideo in dict.keys(files):
-	framesToVideo(getFramesAlternate('datasets/60fps/' + typeOfVideo + str(files[typeOfVideo]) + '.avi'), 15, 'datasets/15fps/' + typeOfVideo + str(files[typeOfVideo]) + '.avi')
-
 
