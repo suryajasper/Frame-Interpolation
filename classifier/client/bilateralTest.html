@@ -1,0 +1,40 @@
+<html>
+<head>
+<title>
+Bilateral filter test
+</title>
+<script type = "module">
+  import {bilateralFilter} from "./bilateralFilter.js"
+
+  var img = new Image()
+  var bf = new bilateralFilter()
+  bf.sigma = 4
+  bf.kernelsize = 4*bf.sigma //95% of the data should fit into 4 sigma
+
+  img.onload = function(){
+    var cda = bf.run(img)
+    var can = document.getElementById('can')
+    can.width = img.width
+    can.height = img.height
+    var ctx = can.getContext('2d')
+    ctx.putImageData(cda,0,0)
+  }
+
+  img.src="imgs/walkway.jpg"
+  document.getElementById('pic').appendChild(img)
+</script>
+</head>
+
+<body>
+<div>
+  <h2>
+  Bilateral(brute force technique) image filter test
+  </h2>
+  </div>
+  <br>
+  <div id="pic" style="width:30pc; float:left">Before:<br></div>
+  After:<br>
+  <canvas id="can" width=480 height=360 style="">
+  </canvas>
+</body>
+</html>
